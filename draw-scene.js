@@ -36,20 +36,25 @@ function drawScene(gl, programInfo, buffers, rotRad,delY) {
     mat4.translate(
       modelViewMatrix, // destination matrix
       modelViewMatrix, // matrix to translate
-      [-0.0, delY, -40.0],
+      //[-0.0, delY, -40.0],
+      [-0.0, 0.0, -10.0]
     ); // amount to translate
     mat4.rotate(
       modelViewMatrix,
       modelViewMatrix,
-      rotRad,
+      //rotRad,
+      0.0,
       [0,0,1]
     )
+    const radis = new Float32Array([0.5, 0.5])
+
     //console.log(modelViewMatrix)
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
     // Also the color values
     setPositionAttribute(gl, buffers, programInfo);
     setColorAttribute(gl, buffers, programInfo); 
+  
   
     // Tell WebGL to use our program when drawing
     gl.useProgram(programInfo.program);
@@ -65,18 +70,20 @@ function drawScene(gl, programInfo, buffers, rotRad,delY) {
       false,
       modelViewMatrix,
     );
+    gl.uniform2fv(programInfo.uniformLocations.radis,
+      [0.2,0.3])
   
     {
       const offset = 0;
-      const vertexCount = 32;
-      gl.drawArrays(gl.TRIANGLE_FAN , offset, vertexCount);
+      const vertexCount = 4;
+      gl.drawArrays(gl.TRIANGLE_STRIP , offset, vertexCount);
     }
   }
   
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   function setPositionAttribute(gl, buffers, programInfo) {
-    const numComponents = 3; // pull out 2 values per iteration
+    const numComponents = 2; // pull out 2 values per iteration
     const type = gl.FLOAT; // the data in the buffer is 32bit floats
     const normalize = false; // don't normalize
     const stride = 0; // how many bytes to get from one set of values to the next
@@ -96,7 +103,7 @@ function drawScene(gl, programInfo, buffers, rotRad,delY) {
   // Tell WebGL how to pull out the colors from the color buffer
 // into the vertexColor attribute.
 function setColorAttribute(gl, buffers, programInfo) {
-    const numComponents = 4;
+    const numComponents = 2;
     const type = gl.FLOAT;
     const normalize = false;
     const stride = 0;

@@ -20,7 +20,7 @@ function initPositionBuffer(gl) {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   
     // Now create an array of positions for the square.
-    const positions = [2.0, 2.0, -2.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+    const positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
     const curve = new THREE.EllipseCurve(
       0,  0,            // ax, aY
       10, 10,           // xRadius, yRadius
@@ -39,7 +39,7 @@ function initPositionBuffer(gl) {
     // console.log(geometry.index.array.length)
     //console.log( jum)
     //let ass = new Float32Array([1,2,3])
-    console.log(jum.length )
+    //console.log(jum.length )
   
 
 
@@ -47,8 +47,8 @@ function initPositionBuffer(gl) {
     // Now pass the list of positions into WebGL to build the
     // shape. We do this by creating a Float32Array from the
     // JavaScript array, then use it to fill the current buffer.
-    //gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
-    gl.bufferData(gl.ARRAY_BUFFER, jum, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    //gl.bufferData(gl.ARRAY_BUFFER, jum, gl.STATIC_DRAW);
   
     return positionBuffer;
 }
@@ -56,15 +56,15 @@ function initPositionBuffer(gl) {
 function initColorBuffer(gl) {
     const colors = [
       1.0,
-      1.0,
-      1.0,
+      0.0,
+      0.0,
       1.0, // white
+      0.0,
       1.0,
-      1.0,
-      1.0,
+      0.0,
       1.0, // red
-      1.0,
-      1.0,
+      0.0,
+      0.0,
       1.0,
       1.0, // green
       1.0,
@@ -72,11 +72,24 @@ function initColorBuffer(gl) {
       1.0,
       1.0, // blue
     ];
+    const colorNew = [
+      0.0,
+      0.0,
+
+      0.0,
+      1.0,
+
+      1.0,
+      0.0,
+
+      1.0,
+      1.0
+    ]
     const nclr = new Array(124).fill(1.0)
   
     const colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nclr), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colorNew), gl.STATIC_DRAW);
   
     return colorBuffer;
   }

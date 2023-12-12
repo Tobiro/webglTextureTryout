@@ -39,19 +39,26 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     const vsSource = `
         attribute vec4 aVertexPosition;
-        attribute vec4 aVertexColor;
+        attribute vec2 aVertexColor; 
         uniform mat4 uModelViewMatrix;
         uniform mat4 uProjectionMatrix;
-        varying lowp vec4 vColor;
+        varying lowp vec2 vColor;
         void main() {
       gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
       vColor = aVertexColor;  
         }
         ` ;
     const fsSource = `
-        varying lowp vec4 vColor;
+        precision mediump float;
+        uniform vec2 uRadi;
+        varying lowp vec2 vColor;
         void main() {
-        gl_FragColor = vColor;
+          float dis = (vColor[0]-0.0)*(vColor[0]-1.0) + (vColor[1]-0.5)*(vColor[1]-0.5);
+          if  ((dis >= uRadi[0]*uRadi[0]) && (dis < uRadi[1]*uRadi[1])){
+            gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+          } else {
+            gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+          }
         }
     `;
     // Initialize a shader program; this is where all the lighting
@@ -68,7 +75,8 @@ function main() {
             },
             uniformLocations: {
                 projectionMatrix: gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
-                modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
+                modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"), 
+                radis: gl.getUniformLocation(shaderProgram, "uRadi")
             },
     };
     // Here's where we call the routine that builds all the
